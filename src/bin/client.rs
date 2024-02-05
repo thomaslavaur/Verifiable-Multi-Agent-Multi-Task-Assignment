@@ -72,9 +72,9 @@ async fn main() -> Result<(), Error> {
     );
     assert!(configuration.manual_choices <= 6);
     for i in 0..3 {
-        assert!(configuration.x[i].parse::<Fr>().unwrap() < Fr::from(10000));
-        assert!(configuration.y[i].parse::<Fr>().unwrap() < Fr::from(10000));
-        assert!(configuration.z[i].parse::<Fr>().unwrap() < Fr::from(10000));
+        assert!(configuration.x[i].parse::<Fr>().unwrap() <= Fr::from(10000));
+        assert!(configuration.y[i].parse::<Fr>().unwrap() <= Fr::from(10000));
+        assert!(configuration.z[i].parse::<Fr>().unwrap() <= Fr::from(10000));
     }
 
     let mut list_robot = vec![];
