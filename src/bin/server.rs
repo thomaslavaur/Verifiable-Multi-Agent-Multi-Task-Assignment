@@ -66,8 +66,8 @@ async fn main() {
     let verifier_key_6_3 = read_verifying_key("verification_key_6_3.json".to_owned());
     let verifier_key_3_3 = read_verifying_key("verification_key_3_3.json".to_owned());
 
-    //rosrust::init("talker");
-    //let chatter_pub = rosrust::publish("chatter", 100).unwrap();
+    rosrust::init("talker");
+    let chatter_pub = rosrust::publish("replace_by_corect_topic", 100).unwrap();
 
     let state = AppState {
         robot: Mutex::new(Robot {
@@ -92,7 +92,7 @@ async fn main() {
         key_3_3: Mutex::new(GrothBn::process_vk(&verifier_key_3_3).unwrap()),
         number_of_robots: configuration.number_of_agent,
         scale: configuration.scale,
-        //publisher: chatter_pub
+        publisher: chatter_pub
     };
 
     // build our application with a route
@@ -168,21 +168,20 @@ async fn update(
         println!(
             "Preuve ok. Assigned Task:\tid: {}\tx: {}\ty: {}\tz: {}",
             robot.list_tasks[1].task_id.into_bigint().to_string(),
-            (robot.list_tasks[1].x.into_bigint().to_string().parse::<f64>().unwrap() / 10000f64) * state.scale,
-            (robot.list_tasks[1].y.into_bigint().to_string().parse::<f64>().unwrap() / 10000f64) * state.scale,
-            (robot.list_tasks[1].z.into_bigint().to_string().parse::<f64>().unwrap() / 10000f64) * state.scale
+            (robot.list_tasks[1].x.into_bigint().to_string().parse::<f64>().unwrap() / 10000f64) * state.scale - 2f64,
+            (robot.list_tasks[1].y.into_bigint().to_string().parse::<f64>().unwrap() / 10000f64) * state.scale - 2f64,
+            (robot.list_tasks[1].z.into_bigint().to_string().parse::<f64>().unwrap() / 10000f64) * state.scale - 2f64
         );
 
         //ROS publish
 
-        /*let mut msg = rosrust_msg::geometry_msgs::Twist::default();
-        msg.linear.x = robot.list_tasks[1].task_id.into_bigint().to_string().parse::<f64>().unwrap();
-        msg.linear.y = (robot.list_tasks[1].x.into_bigint().to_string().parse::<f64>().unwrap() / 10000f64) * state.scale;
-        msg.linear.z = (robot.list_tasks[1].y.into_bigint().to_string().parse::<f64>().unwrap() / 10000f64) * state.scale;
-        msg.angular.x = (robot.list_tasks[1].z.into_bigint().to_string().parse::<f64>().unwrap() / 10000f64) * state.scale;
+        let mut msg = rosrust_msg::geometry_msgs::Point::default();
+        msg.x = (robot.list_tasks[1].x.into_bigint().to_string().parse::<f64>().unwrap() / 10000f64) * 4f64 - 2f64;
+        msg.y = (robot.list_tasks[1].y.into_bigint().to_string().parse::<f64>().unwrap() / 10000f64) * 4f64 - 2f64;
+        msg.z = (robot.list_tasks[1].z.into_bigint().to_string().parse::<f64>().unwrap() / 10000f64) * 4f64 - 2f64;
 
         // Send string message to topic via publisher
-        state.publisher.send(msg).unwrap();*/
+        state.publisher.send(msg).unwrap();
 
 
 
@@ -302,5 +301,5 @@ struct AppState {
     key_3_3: Mutex<PreparedVerifyingKey<Bn254>>,
     number_of_robots: usize,
     scale: f64,
-    //publisher: rosrust::Publisher<rosrust_msg::geometry_msgs::Twist>
+    publisher: rosrust::Publisher<rosrust_msg::geometry_msgs::Point>
 }

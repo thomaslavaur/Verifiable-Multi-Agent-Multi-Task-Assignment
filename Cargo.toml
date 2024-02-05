@@ -46,6 +46,8 @@ tokio = { version = "=1.29.1", features = ["full"] }
 reqwest = "0.11.23"
 toml = "0.8.8"
 log = "0.4.17"
+rosrust_msg = "0.1.7"
+rosrust = "0.9.11"
 
 [dev-dependencies]
 hex-literal = "=0.2.2"
