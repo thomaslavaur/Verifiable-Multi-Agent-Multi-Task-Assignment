@@ -7,3 +7,5 @@
 
 This code is a proof of concept to measure and demonstrate our proposal from the article [Verifiable Multi-Agent Multi-Task Assignment](To-be-include).
 It aims to implement and evaluate the addition of a rollup based architecture within task allocation process.
+
+This code also contains the Anemoi hash function over BN128 which is the first implementation in Circom to our knowledge.
